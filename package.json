@@ -1,0 +1,15 @@
+{
+  "name": "sauron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:sauron": "node --inspect=0.0.0.0:6666 sauron.js",
+    "start:hobbit": "sleep 1 && node hobbit.js"
+  },
+  "dependencies": {
+    "@ungap/structured-clone": "^1.2.0",
+    "pino": "^8.16.0",
+    "ws": "^8.14.2"
+  }
+}

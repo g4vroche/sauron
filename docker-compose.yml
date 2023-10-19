@@ -1,0 +1,41 @@
+version: "2.4"
+
+networks:
+  public:
+
+services:
+
+  sauron:
+    image: node:18
+    volumes:
+      - "./:/var/www/app"
+    working_dir: /var/www/app
+    command: "yarn start:sauron"
+    ports: 
+      - 6666:6666
+    networks:
+      - public
+  
+  frodon:
+    image: node:18
+    volumes:
+      - "./:/var/www/app"
+    working_dir: /var/www/app
+    command: "yarn start:hobbit Frodon 3000"
+    ports: 
+      - 3001:3000
+    networks:
+      - public
+  
+  sam:
+    image: node:18
+    volumes:
+      - "./:/var/www/app"
+    working_dir: /var/www/app
+    command: "yarn start:hobbit Sam 3000"
+    ports: 
+      - 3002:3000
+    networks:
+      - public
+  
+
