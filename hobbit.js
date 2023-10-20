@@ -26,11 +26,14 @@ const logWrapper =
   (logWs, logPino) =>
   (level) =>
   (...args) => {
-    // Here goes log standardisation ...
+    const { stack } = new Error();
+    const methodName = stack.split('at ')[2].split(' ')[0]; // Here goes log standardisation ...
+
     const entry = {
       source: NAME,
       time: new Date().getTime(),
       level,
+      methodName,
       message: args,
     };
 
@@ -70,6 +73,8 @@ function emitLogController(req, res) {
   });
 
   console.log('Complexe message', 'with', 'an object', req);
+
+  console.log({ onlyAnObject: { fizz: [true, false] } });
 
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Log emitted.\n');

@@ -11,14 +11,22 @@ const levelMaps = {
   debug: 'debug',
 };
 
+const levelColors = {
+  log: 'green',
+  error: 'red',
+  warn: 'orange',
+  info: 'green',
+  debug: 'blue',
+};
+
 // --- Styling ------------------
 const geniusColorRoundRobin = ['blue', 'green', 'purple', 'grey'];
 const awesomeColorCache = {};
 
-function styled(fg, bg) {
+function styled(fg, bg, fw = 'normal') {
   return [
     'font-size: 11px;',
-    'font-weight: 800;',
+    `font-weight: ${fw};`,
     'margin: 1px;',
     'padding: 2px;',
     'border-radius: 3px;',
@@ -28,19 +36,23 @@ function styled(fg, bg) {
 }
 
 function formatLogForDebug(entry) {
-  const { source, time, level, message } = entry;
+  const { source, time, level, message, methodName } = entry;
 
   if (!awesomeColorCache[source]) {
     awesomeColorCache[source] = geniusColorRoundRobin.shift();
   }
 
+  const date = new Date(time);
+  const dateTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
+
   const metaStyles = [
-    styled('white', awesomeColorCache[source]),
+    styled('white', awesomeColorCache[source], 900),
+    styled('black', '#ccc'),
+    styled('white', levelColors[level]),
     styled('black', 'white'),
-    styled('white', 'red'),
   ];
 
-  const meta = `%c${source}%c${new Date(time).toDateString()}%c${level}`;
+  const meta = `%c${source.toUpperCase()}%c${dateTime}%c${level}%c${methodName}`;
 
   return [meta, ...metaStyles, ...message];
 }
